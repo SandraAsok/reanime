@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:reanime/profile/about.dart';
 import 'package:reanime/authentication/signup.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../anime/onepiece.dart';
 
 class profile extends StatefulWidget {
@@ -101,7 +102,11 @@ class _aboutState extends State<profile> {
                             title: Text('Are you sure?'),
                             actions: [
                               TextButton(
-                                  onPressed: () {
+                                  onPressed: () async {
+                                    FirebaseAuth.instance.signOut();
+                                    final SharedPreferences sharedPreferences =
+                                        await SharedPreferences.getInstance();
+                                    sharedPreferences.setString('email', '');
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
